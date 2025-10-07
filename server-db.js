@@ -1,0 +1,46 @@
+require('dotenv').config();
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const heroDBpath = path.join(__dirname, 'data', 'superHeros.json');
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+const PORT = 3000;
+
+async function readHeros() {
+    try {
+        const data = await fs.readFile(heroDBpath, 'utf-8');
+        return JSON.parse(data);
+
+    }
+    catch (error) {
+        return [];
+    }
+}
+async function writeHeroes(heroes) {
+    try {
+        await fs.writeFile(heroDBpath, JSON.stringify(heroes, null, 2));
+    }
+    catch (error) {
+        console.error('problem writing to file', error);
+    }
+}
+async function initializeDatabase() {
+    try {
+        await fs.access(heroDBpath);
+
+    } catch (error) {
+        await writeHeroes([]);
+    }
+}
+
+initializeDatabase();
+
+app.post('/heros', (req, res) => {
+});
+app.listen(PORT, () => {
+    console.log(`App is listening on ${PORT}`)
+});

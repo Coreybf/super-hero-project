@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "devStart": "nodemon server-db.js",
+    "devStart2": "nodemon server-ui.js",
+    "dev": "concurrently \"nodemon server.js\" \"browser-sync start --proxy localhost:3000 --files ['views/**/*.ejs', 'public/**/*.js', 'public/**/*.css'] --reload-delay 1000 --no-inject --port 3001\""
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0",
+    "nodemon": "^3.1.10"
+  }
+}
